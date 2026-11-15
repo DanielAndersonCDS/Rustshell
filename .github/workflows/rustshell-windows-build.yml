@@ -1,0 +1,47 @@
+
+name: RustShell Windows build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - "crates/**"
+      - "assets/**"
+      - ".github/workflows/rustshell-windows-build.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build RustShell (Windows x64)
+    runs-on: windows-2022
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install stable Rust (MSVC)
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
+
+      - name: Cache Cargo dependencies
+        uses: Swatinem/rust-cache@v2
+
+      - name: Check workspace
+        run: cargo check --workspace --target x86_64-pc-windows-msvc
+
+      - name: Build release binaries
+        run: cargo build --workspace --release --target x86_64-pc-windows-msvc
+
+      - name: Upload Windows executables
+        uses: actions/upload-artifact@v4
+        with:
+          name: rustshell-windows-x64
+          path: target/x86_64-pc-windows-msvc/release/*.exe
+          if-no-files-found: error
+          retention-days: 14
