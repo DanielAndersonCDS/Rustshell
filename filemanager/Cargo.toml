@@ -1,0 +1,13 @@
+[package]
+name = "rustshell-filemanager"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "rsfiles"
+path = "src/main.rs"
+
+[dependencies]
+eframe = { workspace = true }
+chrono = { workspace = true }
+dirs = { workspace = true }

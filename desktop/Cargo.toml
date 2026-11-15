@@ -1,0 +1,14 @@
+[package]
+name = "rustshell-desktop"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "rsdesktop"
+path = "src/main.rs"
+
+[dependencies]
+eframe = { workspace = true }
+image = { workspace = true }
+dirs = { workspace = true }
+windows = { workspace = true }
